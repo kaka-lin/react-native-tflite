@@ -1,0 +1,2 @@
+target 'RNTensorflowLite'
+    pod 'TensorFlow-experimental'
