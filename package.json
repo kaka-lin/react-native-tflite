@@ -1,23 +1,16 @@
 {
-  "name": "RNTensorflowLite",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "react": "16.0.0",
-    "react-native": "0.51.0",
-    "react-navigation": "^1.0.0-beta.22"
-  },
-  "devDependencies": {
-    "babel-jest": "22.0.4",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "22.0.4",
-    "react-test-renderer": "16.0.0"
-  },
-  "jest": {
-    "preset": "react-native"
+    "name": "react-native-tflite",
+    "version": "0.0.1",
+    "description": "Tendorflow Lite for react native",
+    "main": "index.js",
+    "author": "kaka",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/kaka-lin/react-native-tflite"
+    },
+    "keywords": [
+      "react-native",
+      "tensorflow",
+      "react-native-tflite"
+    ]
   }
-}

@@ -1,10 +1,24 @@
-# OSX
-#
-.DS_Store
+.idea
+*.iws
+out/
 
-# Xcode
-#
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+build/Release
+node_modules/
+.eslintcache
+package-lock.json
+yarn.lock
+
 build/
+DerivedData/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -13,50 +27,29 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
-*.xccheckout
+xcuserdata/
 *.moved-aside
-DerivedData
+*.xccheckout
+*.xcscmblueprint
 *.hmap
 *.ipa
-*.xcuserstate
-project.xcworkspace
+*.dSYM.zip
+*.dSYM
+Pods
+Podfile.lock
+.DS_Store
 
-# Android/IntelliJ
-#
-build/
-.idea
-.gradle
+*.apk
+*.dex
+*.class
+bin/
+gen/
+.gradle/
 local.properties
+proguard/
+.navigation/
+captures/
 *.iml
+gradlew.bat
 
-# node.js
-#
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# BUCK
-buck-out/
-\.buckd/
-*.keystore
-
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
-
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
-
-# vscode
-.vscode
-
-# Pod
-ios/Pods
-ios/Podfile.lock
-
-package-lock.json
+example
