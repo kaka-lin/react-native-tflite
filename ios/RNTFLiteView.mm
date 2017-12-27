@@ -9,7 +9,6 @@
 #import "RNTFLiteView.h"
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
-#import "AppDelegate.h"
 
 #include <sys/time.h>
 #include <fstream>
@@ -105,13 +104,10 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
 
 @implementation RNTFLiteView
 
-// 從代碼實例化 UIView
 - (instancetype)initWithFrame:(CGRect)frame
 {
   self = [super initWithFrame:frame];
   if (self) {
-    // Initialization code
-    
     view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [view setBackgroundColor:[UIColor blackColor]];
     [self addSubview:view];
@@ -165,10 +161,8 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
 {
   NSError *error = nil;
   
-  // 1. create the capture session
   session = [AVCaptureSession new];
   
-  // 2. 設定畫面大小
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
     session.sessionPreset = AVCaptureSessionPreset640x480;
   }
@@ -176,10 +170,8 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
     session.sessionPreset = AVCaptureSessionPresetPhoto;
   }
   
-  // 3. creat device
   AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-  
-  // 4. device input (將Device設成輸入端，可以想成輸入為Camera擷取的影像，輸出為我們設定的ImageView)
+
   AVCaptureDeviceInput *deviceInput =
   [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
   
@@ -188,16 +180,10 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
     assert(NO);
   }
   
-  // 5. connect the device input
   if ([session canAddInput:deviceInput]) [session addInput:deviceInput];
   
-  /* --------------- 至此已經可以成功擷取Camera的影像，只是缺少輸出沒辦法呈現出來 --------------- */
-  
-  // 6. create video data output
   videoDataOutput = [AVCaptureVideoDataOutput new];
   
-  // 7. 設定輸出端的像素（Pixel）格式化，包含透明度的32位元
-  //    CoreImage wants BGRA pixel format
   NSDictionary* rgbOutputSettings =
   [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCMPixelFormat_32BGRA]
                               forKey:(id)kCVPixelBufferPixelFormatTypeKey];
@@ -205,22 +191,18 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
   videoDataOutput.videoSettings = rgbOutputSettings;
   videoDataOutput.alwaysDiscardsLateVideoFrames = YES;
   
-  // 8. create the dispatch queue for handling capture session delegate method calls
-  //    對輸出端的queue做設定
   videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL);
   [videoDataOutput setSampleBufferDelegate:self queue:videoDataOutputQueue];
   
-  // 9. connect the data output
   if ([session canAddOutput:videoDataOutput]) [session addOutput:videoDataOutput];
   [[videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
   
-  // 補充： AVCaptureVideoPreviewLayer是CALayer的子類，可被用於自動顯示相機產生的即時圖像
   previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-  previewLayer.backgroundColor = UIColor.blackColor.CGColor; // 更改 view 背景的顏色
-  [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspect]; // 將這個圖層屬性設定為resize
+  previewLayer.backgroundColor = UIColor.blackColor.CGColor;
+  [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspect];
   
   CALayer *rootLayer = previewView.layer;
-  [rootLayer setMasksToBounds:YES]; // 將超過邊筐外的sublayer裁切掉
+  [rootLayer setMasksToBounds:YES];
   [previewLayer setFrame:[rootLayer bounds]];
   [rootLayer addSublayer:previewLayer];
   
@@ -237,7 +219,6 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
   CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-  // Core Foundation必須使用CFRetain和CFRelease來進行記憶體管理
   CFRetain(pixelBuffer);
   [self runModelOnFrame:pixelBuffer];
   CFRelease(pixelBuffer);
@@ -247,10 +228,8 @@ static void GetTopN(const uint8_t *prediction, const int prediction_size, const 
 {
   assert(pixelBuffer != NULL);
   
-  // OSType: 通常作為一種4位元組的類別標示名被使用在Mac OS里。
   OSType sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer);
   
-  // 32 bit ARGB or BGRA(我們前面是設為32bit BGRA)
   int doReverseChannels;
   if (kCVPixelFormatType_32ARGB == sourcePixelFormat) {
     doReverseChannels = 1;

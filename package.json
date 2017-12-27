@@ -1,6 +1,6 @@
 {
     "name": "react-native-tflite",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Tendorflow Lite for react native",
     "main": "index.js",
     "author": "kaka",

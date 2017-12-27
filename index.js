@@ -11,4 +11,4 @@ export default class RNTFLiteView extends Component {
   }
 }
 
-module.exports = RNTFLiteView;
+export { RNTFLiteView };
