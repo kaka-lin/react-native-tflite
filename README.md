@@ -31,3 +31,8 @@ class App extends Component {
   }
 }
 ```
+
+# Notice
+
+Release mode need `ios 9.0` up
+
