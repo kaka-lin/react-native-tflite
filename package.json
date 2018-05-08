@@ -1,16 +1,20 @@
 {
-    "name": "react-native-tflite",
-    "version": "0.0.2",
-    "description": "Tendorflow Lite for react native",
-    "main": "index.js",
-    "author": "kaka",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/kaka-lin/react-native-tflite"
-    },
-    "keywords": [
-      "react-native",
-      "tensorflow",
-      "react-native-tflite"
-    ]
+  "name": "react-native-tflite",
+  "version": "0.0.2",
+  "description": "Tendorflow Lite for react native",
+  "main": "index.js",
+  "author": "kaka",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaka-lin/react-native-tflite"
+  },
+  "keywords": [
+    "react-native",
+    "tensorflow",
+    "react-native-tflite"
+  ],
+  "dependencies": {
+    "hek": "^1.3.6",
+    "hoek": "^5.0.3"
   }
+}
