@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "hoek": "^5.0.3",
     "react": "16.2.0",
     "react-native": "0.52.2",
     "react-native-tflite": "0.0.2"
